@@ -73,11 +73,11 @@ public class Main {
     {
         Scanner in = new Scanner(System.in);
         int treasureX = in.nextInt(), treasureY = in.nextInt();
-        int startX = 0, startY = 0, countInstructions = 0, min = 0;
+        int startX = 0, startY = 0, countInstructions = 0, min = Integer.MAX_VALUE;
         while (true)
         {
             if (startX == treasureX && startY == treasureY)
-                min = countInstructions;
+                min = Integer.min(countInstructions, min);
 
             String direction = in.next();
             if (Objects.equals(direction, "стоп"))
