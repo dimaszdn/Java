@@ -31,6 +31,7 @@ public class Main {
                 isTwiceEven();
                 break;
         }
+        in.close();
     }
 
     static void syracuseSequence()
@@ -95,6 +96,7 @@ public class Main {
         }
 
         System.out.println("OUTPUT: " + min);
+        in.close();
     }
 
     static void logisticMaximin()
