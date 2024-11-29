@@ -17,6 +17,10 @@ public class Main {
         Scanner in = new Scanner(System.in);
 
         while (isGame){
+
+            if (board.getMate())
+                break;
+
             board.print_board();
             System.out.println();
 
@@ -49,13 +53,10 @@ public class Main {
                 col1 = Integer.parseInt(coords[3]);
             }
 
-            /*//Отключим попеременные ходы
             switch (board.getColorGame()){
                 case 'w': board.setColorGame('b');break;
                 case 'b': board.setColorGame('w');break;
-            }*/
+            }
         }
-        //test
-
     }
 }
