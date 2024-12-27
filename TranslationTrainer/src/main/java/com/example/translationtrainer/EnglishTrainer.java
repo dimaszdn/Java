@@ -23,10 +23,11 @@ import javafx.stage.Stage;
 public class EnglishTrainer implements Initializable {
 
     private final int countOfOutputWords = 10;
+    private int score = 0;
 
-    private ArrayList<String> inputUser = new ArrayList<String>();
     private ArrayList<Word> words; // значения из таблицы
     private ArrayList<Word> randomWords;
+    private ArrayList<String> inputUser = new ArrayList<String>();
 
     private DBAdapter adapter = new DBAdapter();
 
@@ -58,15 +59,23 @@ public class EnglishTrainer implements Initializable {
 
     public void onCheckButtonClick() throws IOException, SQLException {
         ObservableList<Node> childrenVBox = vectorPair.getChildren();
-        for (Node vBox : childrenVBox) {
-            HBox hbox = (HBox) vBox;
-            TextField textField = (TextField) hbox.getChildren().getLast();
-            inputUser.add(textField.getText());
+        for (int i = 0; i < childrenVBox.size(); ++i)
+        {
+            HBox hbox = (HBox)childrenVBox.get(i);
+            TextField textField = (TextField) hbox.getChildren().get(1);
+            //сравниваем ввод пользователя с правильным переводом, добавляем индикатор и сохраняем
+            if (!textField.getText().equalsIgnoreCase(randomWords.get(i).getRusWord()))
+                inputUser.add(textField.getText() + "/0");
+            else
+            {
+                inputUser.add(textField.getText() + "/1");
+                score++;
+            }
         }
         closeAndOpenResult();
     }
 
-    public void closeAndOpenResult() throws IOException, SQLException {
+    private void closeAndOpenResult() throws IOException, SQLException {
         Stage stage = (Stage) (vectorPair.getScene().getWindow());
         stage.hide();
         FXMLLoader loader = new FXMLLoader();
@@ -79,7 +88,7 @@ public class EnglishTrainer implements Initializable {
         stage.show();
 
         Result result = loader.getController();
-        result.addData(randomWords, inputUser);
+        result.showResults(randomWords, inputUser, score);
     }
 
     private ArrayList<Word> getRandomWords(int count)
